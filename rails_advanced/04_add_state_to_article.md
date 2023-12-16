@@ -159,18 +159,31 @@ $('.js-datetimepicker').datetimepicker({
     format: 'YYYY-MM-DD HH:mm'
   });
 ```
+#### 1時間ごとにarticle.stateを更新
+rakeとwheneverを組み合わせて実行する
+```
+rails g tasl article_state
+```
+でtaskファイルを作成。更新日が現在時刻以前であればstateを公開に変更する処理を記載
+```
+namespace :article_state do
+  desc "定期的な記事ステータスの更新"
+  task update_article_state: :environment do
+    articles = Article.where("updated_at <= ?",Time.current).update(state: :published)
+  end
+end
+```
+
 
 ## 参考サイト
-- [【Rails 】Rakeタスクとは](https://qiita.com/mmaumtjgj/items/8384b6a26c97965bf047)
-- [参考サイト3](https://www.google.com/?hl=ja)
-- [参考サイト3](https://www.google.com/?hl=ja)
-
 フラッシュメッセージの出し分けとfat controllerの解消
 - [[Rails] FatControllerの改善](https://osamudaira.com/353/)
 - [【Rails】Time.currentとTime.nowの違い](https://qiita.com/kodai_0122/items/111457104f83f1fb2259)
-- [ああ](https://www.google.com/?hl=ja)
-- [参考サイト3](https://www.google.com/?hl=ja)
-- [参考サイト3](https://www.google.com/?hl=ja)
 
 日付変更
 - [[Rails]日付と時間の入力フォームにDateTimePickerを使う](https://blog.hello-world.jp.net/posts/javascript-1762)
+
+ステータス変更
+- [【Rails 】Rakeタスクとは](https://qiita.com/mmaumtjgj/items/8384b6a26c97965bf047)
+- [【Rails】wheneverでcronを設定](https://qiita.com/mmaumtjgj/items/19e866f31541abb6c614)
+- [railsで複数のRecordをUpdateするrake taskを作る](https://qiita.com/nakamasato/items/bca1e5986bffd6ec69c5)
