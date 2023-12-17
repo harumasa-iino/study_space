@@ -1,0 +1,65 @@
+# トピック
+検索機能の追加
+
+## 目標
+「セレクトボックスのカテゴリー検索」「フリーワードによるタイトル検索」に加えて、
+「セレクトボックスの著者検索」「セレクトボックスのタグ検索」「フリーワードによるコンテンツ（記事内容）検索」を追加
+追加する各検索機能では、下書き状態の記事も検索できるように実装
+
+## 学習内容
+- form object
+- scope
+
+### 課題に対しての学習内容
+
+#### scopeについて
+現在実装されている検索機能の流れを確認
+```
+# app>controller>form>search_articles_form.rb
+
+  def search
+    relation = Article.distinct
+
+    relation = relation.by_category(category_id) if category_id.present?
+    title_words.each do |word|
+      relation = relation.title_contain(word)
+    end
+    relation
+  end
+```
+Articleモデルでby_categoryでscopeを定義していると分かる  
+scopeとは
+```
+(publishedカラムはtrueかfalseで公開・非公開を管理)
+
+class Blog < ApplicationRecord
+  scope :published, -> { where(published: true) }
+end
+```
+上記のようにモデルで共通の条件式を設定出来るもの  
+scopeのメリットは
+- 条件式に名前を付けられるので直感的なコードになる
+- 共通化により修正箇所が少なくて済む
+- 記述コードが短くなる
+
+
+
+
+
+### やったこと
+あれこれやりました
+
+#### 苦戦したこと
+ここは苦戦しました
+
+```
+hogehoge 
+```
+
+これで解決しました
+
+
+## 参考サイト
+- [[Rails]モデルのscopeメソッド](https://zenn.dev/yusuke_docha/articles/ca0637ccc8d01f)
+- [参考サイト2](https://www.google.com/?hl=ja)
+- [参考サイト3](https://www.google.com/?hl=ja)
