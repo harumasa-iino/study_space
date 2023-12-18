@@ -43,6 +43,34 @@ scopeのメリットは
 - 記述コードが短くなる
 
 
+#### Taxonomy
+
+類似テーブルはまとめ設計する。DBには実在しないテーブルでデータは全てtaxonomiesに保管される
+```
+# taxonomies.rb
+class Taxonomy < ApplicationRecord
+
+end
+
+#tag.rb
+class Tag < Taxonomy
+  has_many :article_tags
+  has_many :articles, through: :article_tags
+end
+```
+
+タグのattributesがうまくいかない  
+モデルのscopeではjoinsしているが、view読み込み時にアソシエーションがうまくいかなくてarticlesのカラムだとされており、エラーが発生指定しまっている
+```
+Mysql2::Error: Unknown column 'articles.tag_id' in 'where clause'
+
+th = Article.human_attribute_name(:published_at)
+  tbody
+   - @articles.each do |article|
+    tr
+      td = article.id
+      td
+```
 
 
 
@@ -58,8 +86,16 @@ hogehoge
 
 これで解決しました
 
+## 次回やること
+sentecesのbodyをattributeして検索出来るようにする  
+paramsで送信はできているが、データベースにうまく送信できていなくて検索できない状態にある  
+->params permitできていなかった  
+  
+tag_idの紐づけを見直す
+
 
 ## 参考サイト
 - [[Rails]モデルのscopeメソッド](https://zenn.dev/yusuke_docha/articles/ca0637ccc8d01f)
-- [参考サイト2](https://www.google.com/?hl=ja)
-- [参考サイト3](https://www.google.com/?hl=ja)
+- [【Rails】単一テーブル継承(STI)について](https://qiita.com/niwa1903/items/218713c076fb0075712f)
+- [ActiveModelを用いた検索機能の実装方法](https://qiita.com/namikawa07/items/d223305861ffe10bfbc5)
+- [Railsのモデルのscopeを理解しよう](https://qiita.com/ozin/items/24d1b220a002004a6351)
