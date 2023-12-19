@@ -92,10 +92,18 @@ paramsで送信はできているが、データベースにうまく送信で�
 ->params permitできていなかった  
   
 tag_idの紐づけを見直す
-
+```
+scope :by_tag, ->(tag_id) { joins(:tags).where(article_tags: {tag_id: tag_id}) }
+```
+where句内に中間テーブルを経由するように記載  
+結合先のカラム名で絞り込む場合はwhereでテーブルを指定する
+```
+モデル名.joins(:関連名).where(結合先のテーブル名: { カラム名: 値 })
+```
 
 ## 参考サイト
 - [[Rails]モデルのscopeメソッド](https://zenn.dev/yusuke_docha/articles/ca0637ccc8d01f)
 - [【Rails】単一テーブル継承(STI)について](https://qiita.com/niwa1903/items/218713c076fb0075712f)
 - [ActiveModelを用いた検索機能の実装方法](https://qiita.com/namikawa07/items/d223305861ffe10bfbc5)
 - [Railsのモデルのscopeを理解しよう](https://qiita.com/ozin/items/24d1b220a002004a6351)
+- [【Rails】 joinsメソッドの使い方 ~ テーブル結合からネストまで学ぶ](https://pikawaka.com/rails/joins#where%E3%83%A1%E3%82%BD%E3%83%83%E3%83%89%E3%81%AE%E3%82%AB%E3%83%A9%E3%83%A0%E6%8C%87%E5%AE%9A%E6%96%B9%E6%B3%95%EF%BC%92)
