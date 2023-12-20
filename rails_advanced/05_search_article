@@ -71,21 +71,6 @@ th = Article.human_attribute_name(:published_at)
       td = article.id
       td
 ```
-
-
-
-### やったこと
-あれこれやりました
-
-#### 苦戦したこと
-ここは苦戦しました
-
-```
-hogehoge 
-```
-
-これで解決しました
-
 ## 次回やること
 sentecesのbodyをattributeして検索出来るようにする  
 paramsで送信はできているが、データベースにうまく送信できていなくて検索できない状態にある  
@@ -101,9 +86,19 @@ where句内に中間テーブルを経由するように記載
 モデル名.joins(:関連名).where(結合先のテーブル名: { カラム名: 値 })
 ```
 
+## Rspec
+uniqueで作成しないデータは複数のデータをsequenceを使って作成
+```
+sequence(:カラム) {|n| "値#{n}"}
+```
+Rspecの記述方法については要復習
+
+
+
 ## 参考サイト
 - [[Rails]モデルのscopeメソッド](https://zenn.dev/yusuke_docha/articles/ca0637ccc8d01f)
 - [【Rails】単一テーブル継承(STI)について](https://qiita.com/niwa1903/items/218713c076fb0075712f)
 - [ActiveModelを用いた検索機能の実装方法](https://qiita.com/namikawa07/items/d223305861ffe10bfbc5)
 - [Railsのモデルのscopeを理解しよう](https://qiita.com/ozin/items/24d1b220a002004a6351)
 - [【Rails】 joinsメソッドの使い方 ~ テーブル結合からネストまで学ぶ](https://pikawaka.com/rails/joins#where%E3%83%A1%E3%82%BD%E3%83%83%E3%83%89%E3%81%AE%E3%82%AB%E3%83%A9%E3%83%A0%E6%8C%87%E5%AE%9A%E6%96%B9%E6%B3%95%EF%BC%92)
+- [transientとafter(:build)](https://sakitadaiki.hatenablog.com/entry/2021/02/07/091403)
