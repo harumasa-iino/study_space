@@ -22,7 +22,13 @@ def create
 
   @category = Category.new(category_params)
 ```
-punditの権限が無いとのエラーが発生していることが分かる。controllerでauthorizeを使って権限を制限しているよう
+punditの権限が無いとのエラーが発生していることが分かる。controllerでauthorizeを使って権限を制限しているよう  
+
+#### Punditについて
+punditは各コントローラーの各アクションでauthorizeリソースオブジェクトを呼ぶと、対象のリソースに対して権限があるかどうかを確認する。設定は`app/policies`のポリシーファイルで細かく定義できる
+
+
+設定したコントローラの各アクションでauthorizeリソースオブジェクトを呼ぶと､対象のリソースに対して権限があるかどうかを確認してくれる｡**その設定をapp/policiesにあるポリシーファイルで細かく定義できる｡
 
 ### 認可と認証について
 認証は誰であるのかを確認すること。マイナンバーカードであなたは鈴木さんと確認できましたとなる  
@@ -30,16 +36,75 @@ punditの権限が無いとのエラーが発生していることが分かる�
 認証によって誰であるのかが分かることで認可ができるので、認可は認証に依存している
 
 ### やったこと
-あれこれやりました
+policyファイルでアクションごとに権限の設定
+```
+class TaxonomyPolicy < ApplicationPolicy
+  def index?
+    user.admin? || user.editor?
+  end
+
+  def create?
+    user.admin? || user.editor?
+  end
+
+  def update?
+    user.admin? || user.editor?
+  end
+
+  def edit?
+    user.admin? || user.editor?
+  end
+
+  def destroy?
+    user.admin? || user.editor?
+  end
+end
+```
+今回はタグ・カテゴリー・著者とtaxnomyを使用したモデルのため一括で設定  
+
+#### 権限がない際に403エラーページを表示させる
+public/403.htmlを作成 
+```
+<!DOCTYPE html>
+<html>
+<head>
+  <title>権限がありません(401)</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+</head>
+
+<body>
+  <p>権限がありません。</p>
+</body>
+</html>
+```
+本番環境でのみ表示されるため、開発環境で確認できるようにenvironment/development.rbを編集
+```
+# Show full error reports. falseに設定することで開発環境で確認出来るようになる
+# config.consider_all_requests_local = true
+config.consider_all_requests_local = false
+```
+さらにエラー時に403を表示させるために下記を設定する
+```
+#punditでのエラーを指定。forbittenというシンボルはステータスコード403と定義されている
+config.action_dispatch.rescue_responses["Pundit::NotAuthorizedError"] = :forbidden
+```
 
 #### 苦戦したこと
-ここは苦戦しました
-
+通常のRspecのテストだと権限エラーが出てしまいテストができない
 ```
-hogehoge 
+Capybara::NotSupportedByDriverError:
 ```
-
-これで解決しました
+そのためHttpのステータスを取得する必要がある
+```
+expect(page).to have_http_status(403)
+```
+httpのステータスコードを取得するには下記設定が必要
+```
+ before do
+    # avoid Capybara::NotSupportedByDriverError to use page.status_code
+    driven_by(:rack_test)
+  end
+```
 
 
 ## 参考サイト
