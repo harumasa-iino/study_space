@@ -105,7 +105,8 @@ httpのステータスコードを取得するには下記設定が必要
     driven_by(:rack_test)
   end
 ```
-
+ [pundit](https://github.com/varvet/pundit?tab=readme-ov-file#rescuing-a-denied-authorization-in-rails)
+development.rbにしかforbiddenの設定していなかったが、rspecの環境でも403エラーを発生させるためにapprication.rbに設定する必要があった
 
 ## 参考サイト
 - [【Rails】authorizeとは？[Pundit] / 403エラー画面の作成有り](https://qiita.com/mmaumtjgj/items/c7fc40619a15cce5ccfc)
