@@ -101,11 +101,41 @@ viewにラジオボタンを設定する
 collection_radio_buttonsを使うことで、ラジオボタンとラベルの記述が不要。  
 また、enum_helperによってi18nでのenumの日本語呼び出しができてラベルにつけることが出来る  
 見た目の調整は必要そう  
+【追記】
+```
+= f.input_field :eyecatch_align, as: :radio_buttons  #ラジオボタンを使うときはf.input_fieldを使う
+```
+input_fieldとas: :radio_buttonsで記述する
   
-コントローラー側でラジオボタンの結果を受け取る
+コントローラー側でラジオボタンの結果を受け取る  
+```
+def article_params
+  params.require(:article).permit(
+    :title, :description, :slug, :state, :published_at, :eye_catch, :eyecatch_width, :eyecatch_align, :category_id, :author_id, tag_ids: [])
+end
 
+# ログでも受け取れていることを確認
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"w7iC1vBd3bnTeKos6mRNV_cJ4pMgjHS4N3iODF8n498QHL6t9n9TBnE3T4Bhb7e8RnAsnUk8KPmkZadPKOqIqQ", "article"=>{"state"=>"published", "published_at"=>"2023-12-16 23:00", "title"=>"aaa", "slug"=>"nani", "eyecatch_width"=>"300", "eyecatch_align"=>"left", "description"=>"a", "author_id"=>"", "category_id"=>"2", "tag_ids"=>[""]}, "commit"=>"更新する", "uuid"=>"ccb2c3dd-7a0b-4f23-a2a6-653d5d6eb9fe"}
+```
+カラムの作成をしてデータを送信するところまで実装できたので、データをもとに表の見た目を変えられるようにviewを編集  
+Bootstrapの公式ドキュメントの通り、justifyを使用して画像の位置を調整する
+```
+# 左寄せ
+<div class="d-flex justify-content-start">...</div>
+# 右寄せ
+<div class="d-flex justify-content-end">...</div>
+# 中央揃え
+<div class="d-flex justify-content-center">...</div>
+```
+データの内容によってclassを分岐させる必要がある。viewでのifは冗長的になるがいったんはcase whenで分岐させる
+色々苦戦したが、section自体にclassをつけることで解決した
+```
+section.eye_catch class="text-#{article.eyecatch_align}"
+```
+enumの値をそのまま使うことでtext-rightなどbootstrapに適したclassを付与することができた
 
 ## 参考サイト
 - [Railsのラジオボタン(f.radio_button)](https://qiita.com/dawn_628/items/944c79b06299a35b5225)
 - [ActiveRecord でのデフォルト値設定](https://www.google.com/?hl=ja)
 - [enumとenum_helpの使い方【rails】](https://qiita.com/kikikikimorimori/items/353f69e31b42e85b9c29)
+- [Justify content](https://getbootstrap.jp/docs/5.3/utilities/flex/)
