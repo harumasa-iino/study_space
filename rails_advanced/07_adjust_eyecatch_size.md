@@ -132,10 +132,33 @@ Bootstrapの公式ドキュメントの通り、justifyを使用して画像の�
 ```
 section.eye_catch class="text-#{article.eyecatch_align}"
 ```
-enumの値をそのまま使うことでtext-rightなどbootstrapに適したclassを付与することができた
+enumの値をそのまま使うことでtext-rightなどbootstrapに適したclassを付与することができた  
+
+#### Rspecのテストエラー
+ローカル環境では問題ないがテストではエラーが出てしまう
+```
+ActionView::Template::Error:
+       ActiveStorage::FileNotFoundError
+```
+調査したところ、proceedを削除することで解決
+```
+article_decorator.rb
+command ? eye_catch.variant(command) : eye_catch
+```
+variantの後ろに、processedメソッドをつけると既に同じ加工を施したデータがないかを確認し、存在する場合はそれを呼び出します。
+```
+Blobオブジェクト.variant( 処理 ).processed
+```
+4割位の理解度だが、proceedをつけることで毎回加工画像をDBに保存してデータを圧迫してしまうことを避けて、すでに存在するデータを呼び出す事ができる  
+ただ保存していないから、そのデータを呼び出そうとしてエラーがでているみたい？
 
 ## 参考サイト
 - [Railsのラジオボタン(f.radio_button)](https://qiita.com/dawn_628/items/944c79b06299a35b5225)
 - [ActiveRecord でのデフォルト値設定](https://www.google.com/?hl=ja)
 - [enumとenum_helpの使い方【rails】](https://qiita.com/kikikikimorimori/items/353f69e31b42e85b9c29)
 - [Justify content](https://getbootstrap.jp/docs/5.3/utilities/flex/)
+
+Rspec
+- [RSpec自動テスト時に画像を添付する](https://zm.hateblo.jp/entry/2020/10/16/200313)
+- [【Rails】Active Storageの画像加工時に出たActiveStorage::FileNotFoundErrorについて](https://zenn.dev/meimei_kr/articles/50138b90cbdde8)
+- [【Rails】ActiveStorageのvariantを使いこなす！](https://prograshi.com/framework/rails/active-storage_variant/)
