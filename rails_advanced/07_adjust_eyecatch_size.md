@@ -152,6 +152,21 @@ Blobオブジェクト.variant( 処理 ).processed
 4割位の理解度だが、proceedをつけることで毎回加工画像をDBに保存してデータを圧迫してしまうことを避けて、すでに存在するデータを呼び出す事ができる  
 ただ保存していないから、そのデータを呼び出そうとしてエラーがでているみたい？
 
+## 復習点
+画像サイズの初期値を表示させるために100pxをデフォルト値としてカラムに設定しているが、これだと要件が変更となった際の対応が難しくなるため、推奨されない
+```
+class AddImageInfoToArticles < ActiveRecord::Migration[5.2]
+  def change
+    add_column :articles, :eyecatch_align, :integer, default: 0, null: false
+    add_column :articles, :eyecatch_width, :integer
+  end
+end
+```
+「as: :radio_buttonでラジオボタン作れるんだ」「f.input_fiedを使うといいんだ」ではなく  
+**「公式のドキュメントを読む」  
+「便利な機能によって生成・実行されるものを確認し理解する。今回のようにViewヘルパーならHTML。ActiveRecordならSQL。」  
+なんとなくの理解ではなく、どのようなものが使われいてるのか気にして調べてみることが重要**
+
 ## 参考サイト
 - [Railsのラジオボタン(f.radio_button)](https://qiita.com/dawn_628/items/944c79b06299a35b5225)
 - [ActiveRecord でのデフォルト値設定](https://www.google.com/?hl=ja)
