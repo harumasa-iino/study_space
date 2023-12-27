@@ -16,11 +16,8 @@ youtubeに関しても、IDではなくURLを入力したら動画を表示で�
 - 課題に対しての学習内容
 
 ### 課題に対しての学習内容
-embed_typeのenumにtwitterを追加
-```
-# embed.rb
-  enum embed_type: { youtube: 0 }
-```
+
+#### youtubeをurlで表示出来るようにする
 youtubeをembedするには`<iframe width="~~" height="~~" src="https://www.youtube.com/embed/{id}"`にする必要がある  
 今回は共有URLを添付してもらってembedさせたいので、フォームから送信されたurlからidを取り出す必要がある
 ```
@@ -29,7 +26,32 @@ def split_id_from_youtube_url
   identifier.split('/').last
 end
 ```
+#### twitterを表示出来るようにする
+embed_typeのenumにtwitterを追加
+```
+# embed.rb
+  enum embed_type: { youtube: 0 }
+```
+入力フォームは既存のままでOK
+```
 
+```
+viewファイルで分岐を作成
+```
+  - if embed.youtube?
+    - if embed.identifier?
+      = render 'shared/embed_youtube', embed: embed, width: 560, height: 315
+  - if embed.twitter?
+    - if embed.identifier?
+      = render 'shared/embed_twitter', embed: embed
+```
+render先のembed_twitterを[公式のpath](https://publish.twitter.com/?query=https%3A%2F%2Fx.com%2FSpaceX%2Fstatus%2F1732824684683784516%3Fs%3D20&widget=Tweet)を元に作成
+```
+.embed-twitter
+  blockquote.twitter-tweet
+   a href="#{embed.identifier}"
+  script async="" src="https://platform.twitter.com/widgets.js" charset="utf-8"
+```
 
 
 #### 忘れていたこと
