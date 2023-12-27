@@ -53,6 +53,54 @@ render先のembed_twitterを[公式のpath](https://publish.twitter.com/?query=h
   script async="" src="https://platform.twitter.com/widgets.js" charset="utf-8"
 ```
 
+#### アイコン表示の分岐
+```
+# _article_block.html.slim
+section.box
+  .box-header
+# box_header_iconで分岐表示
+    = article_block.box_header_icon
+```
+```
+# article_block_decorator.rbで分岐アクションの作成
+  def box_header_icon
+    if sentence?
+      '<i class="fa fa-edit"></i>'.html_safe
+    elsif medium?
+      '<i class="fa fa-image"></i>'.html_safe
+    elsif embed?
+       '<i class="fa fa-youtube-play"></i>'.html_safe
+    end
+  end
+```
+判定はmodelで作成
+```
+  def sentence?
+    blockable.is_a?(Sentence)
+  end
+
+  def medium?
+    blockable.is_a?(Medium)
+  end
+
+  def embed?
+    blockable.is_a?(Embed)
+  end
+```
+インスタンス変数内のembed_typeの判定を追加する
+```
+  def embed?
+    blockable.is_a?(Embed)
+  end
+# embed.youtube?にしていたが、article_blockモデル内で記述しているためblockableを使う
+  def youtube?
+    blockable.youtube?
+  end
+
+  def twitter?
+    blockable.twitter?
+  end
+```
 
 #### 忘れていたこと
 enumを定義した場合、youtube? メソッドが使えるようになります。そして、このメソッドは status の値が :youtube のときに true を返します。
