@@ -163,9 +163,9 @@ class AddImageInfoToArticles < ActiveRecord::Migration[5.2]
 end
 ```
 「as: :radio_buttonでラジオボタン作れるんだ」「f.input_fiedを使うといいんだ」ではなく  
-**「公式のドキュメントを読む」  
+** 「公式のドキュメントを読む」  
 「便利な機能によって生成・実行されるものを確認し理解する。今回のようにViewヘルパーならHTML。ActiveRecordならSQL。」  
-なんとなくの理解ではなく、どのようなものが使われいてるのか気にして調べてみることが重要**
+なんとなくの理解ではなく、どのようなものが使われいてるのか気にして調べてみることが重要 **
 
 ## 参考サイト
 - [Railsのラジオボタン(f.radio_button)](https://qiita.com/dawn_628/items/944c79b06299a35b5225)

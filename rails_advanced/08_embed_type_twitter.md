@@ -101,11 +101,35 @@ section.box
     blockable.twitter?
   end
 ```
+delegateをつかうようにrspecでのエラーが発生
+```
+ Rails/Delegate: Use delegate to define delegations.
+```
 
 #### 忘れていたこと
 enumを定義した場合、youtube? メソッドが使えるようになります。そして、このメソッドは status の値が :youtube のときに true を返します。
 
+###　復習点
+model内に新たにアクションを定義せずともdecoratorの中のifで解決できた。decoratorで呼び出しできるのにアクションを作成するのは冗長的なのでNG
+```
+elsif embed?
+  blockable.youtube? ? content_tag(:i, nil, class: 'fa fa-youtube-play') : content_tag(:i, nil, class: 'fa fa-twitter')
+end
+```
+アイコンの並列でインデントを下げて対応したがhtml構造上変なのでNG、divを作って両方同じインデント内に入れるのが◯
+```
+# NG
+ i.fa.fa-youtube-play
+   i.fa.fa-twitter
+
+# OK
+div
+  i.fa.fa-youtube-play
+  i.fa.fa-twitter
+```
+
+
 ## 参考サイト
 - [動画と再生リストを埋め込む](https://support.google.com/youtube/answer/171780?hl=ja)
-- [参考サイト2](https://www.google.com/?hl=ja)
+- [Railsのモデルのpolymorphicの使い方](https://qiita.com/sibakenY/items/7d984267995e8ce408c2)
 - [参考サイト3](https://www.google.com/?hl=ja)
