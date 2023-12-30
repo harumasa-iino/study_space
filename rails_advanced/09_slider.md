@@ -18,6 +18,12 @@ has_many_attachedによってレコードとファイルの間に1対多の関�
   has_one_attached :favicon
   has_many_attached :main_images
 ```
+ストロングパラメーターを設定
+```
+  def site_params
+    params.require(:site).permit(:name, :subtitle, :description, :favicon, :og_image, :main_images)
+  end
+```
 
 ### やったこと
 あれこれやりました
