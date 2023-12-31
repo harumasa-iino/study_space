@@ -24,6 +24,11 @@ has_many_attachedによってレコードとファイルの間に1対多の関�
     params.require(:site).permit(:name, :subtitle, :description, :favicon, :og_image, :main_images)
   end
 ```
+バリデーションを設定
+```
+# site.rb
+  validates :main_images, attachment: { purge: true, content_type: %r{\Aimage/(png|jpeg)\Z}, maximum: 524_288_000 }
+```
 
 ### やったこと
 あれこれやりました
