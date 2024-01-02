@@ -29,6 +29,11 @@ has_many_attachedによってレコードとファイルの間に1対多の関�
 # site.rb
   validates :main_images, attachment: { purge: true, content_type: %r{\Aimage/(png|jpeg)\Z}, maximum: 524_288_000 }
 ```
+viewで複数画像を送信出来るようにする
+```
+# 画像の複数投稿でmultiple: trueを付与したいときは､そのままmultiple: trueを付けるのでは無く､input_htmlの中で指定する
+= f.input :main_images, as: :file, hint: 'JPEG/PNG (1200x1400)', input_html: { multiple: true }
+```
 
 ### やったこと
 あれこれやりました
@@ -45,5 +50,5 @@ hogehoge
 
 ## 参考サイト
 - [simple_form公式git hub](https://github.com/heartcombo/simple_form)
-- [参考サイト2](https://www.google.com/?hl=ja)
+- [[Rails] Simple_form gem2](https://zenn.dev/yusuke_docha/articles/1fa77e0cfd54d9#%E4%BB%BB%E6%84%8F%E3%81%AEhtml%E5%B1%9E%E6%80%A7%E3%82%92%E3%81%9D%E3%81%AE%E3%81%BE%E3%81%BEinput%E3%81%AB%E6%B8%A1%E3%81%99)
 - [参考サイト3](https://www.google.com/?hl=ja)
