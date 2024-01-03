@@ -74,6 +74,99 @@ viewに削除ボタンを設置
 ```
 
 ### swiperの導入
+紆余曲折有りすぎたが、覚えている限りで最初から書いていく  
+swiperの導入のためにinstallする
+```
+# addを使ってからinstallする
+yarn add swiper
+yarn install
+```
+公式ドキュメントを参考にhtmlに追記していく
+```
+  .swiper
+    .swiper-wrapper
+      - if current_site.main_images.present?
+        - current_site.main_images.each do |main_image|
+          = image_tag main_image, class: 'swiper-slide'
+      - else
+        = image_tag '/images/cover.jpg', class: 'swiper-slide'
+```
+assets.rbにinstallしたswiperが読み込まれるように記載
+```
+# config/initializers/assets.rb
+Rails.application.config.assets.paths << Rails.root.join('node_modules')
+```
+jsとcssでそれぞれswiperが使えるように記述
+```
+# app/assets/javascripts/application.js
+//= require swiper/swiper-bundle.js
+```
+```
+# app/assets/stylesheets/application.scss
+@import 'swiper/swiper-bundle';
+```
+ここで躓く  
+試したこと色々
+- cssが崩れていたので見本を元にcssの記述をパクる。swiper-containerが古いclassだったため改変
+- jsが読み込まれていないようだったので色々試す
+- javascripts/appplication.jsではなくbuild/application.jsが読み込まれているようだったのでそちらに書いてみる
+- bin/devするたびに消されてしまうので記述する場所ではないと気付く
+- 別でswiper.jsを作ってそちらにswiper初期化のコードを書いてみる
+- application.jsで呼び出してみるも、そもそも読み込まれていないようだったので挫折
+- console.log(1);をしてもconsoleに書かれないので読み込まれていないと発覚した
+- 結果試したところviewに直接javascriptを記述することで解決しそう
+色々あった結果javascriptを直接記述  
+DOMでswiper部分が読み込まれたあとにjavasxriptが起動する必要があるので下の方に追記
+```
+header
+  .swiper
+    .swiper-wrapper
+      - if current_site.main_images.present?
+        - current_site.main_images.each do |main_image|
+          = image_tag url_for(main_image), class: 'swiper-slide'
+      - else
+        = image_tag '/images/cover.jpg', class: 'swiper-slide'
+    .swiper-button-next    
+    .swiper-button-prev
+    .swiper-pagination
+    .swiper-scrollbar    
+  .container.blog-title
+    h1 = link_to current_site.name, root_path
+    p.lead = current_site.subtitle
+  
+javascript:
+  $(document).ready(function() {
+    new Swiper('.swiper', {
+      loop: true,
+      autoplay: {
+        delay: 3000,
+        disableOnInteraction: false,     
+      },
+       // If we need pagination
+      pagination: {
+        el: ".swiper-pagination",
+        clickable: true,
+      },
+
+      // Navigation arrows
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+
+      // And if we need scrollbar
+      scrollbar: {
+        el: '.swiper-scrollbar',
+      },
+    })
+  })
+```
+さらにminify化されたライブラリをapplication.html.slimで導入
+```
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+```
+上記で動くようになった
+
 
 ## 参考サイト
 - [simple_form公式git hub](https://github.com/heartcombo/simple_form)
