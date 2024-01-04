@@ -31,7 +31,31 @@ rails generate mailer Article
 create  app/mailers/article_mailer.rb
 create  app/mailers/application_mailer.rb
 ```
+mialkerのアクションを設定
+```
+class ArticleMailer < ApplicationMailer
+  def report_summary
+    @published_articles = Article.where("state = ?", Article.states[:published])
+    @yesterday_published_articles = Article.where("DATE(published_at) = ? AND state = ?", Date.yesterday, Article.states[:published])
+    mail(to: admin@example.com, subject: '公開済記事の集計結果')
+  end
+end
+```
+メールのtextも設定
+```
+公開済みの記事数: <%= @published_articles.count  %>件
+<% if @yesterday_published_articles?  %>
+      <%each @yesterday_published_articles.do |article|%>
+        タイトル:<%= article.title%>
+      <%end%>
+    <%else%>
+      昨日公開された記事はありません
+    <%end%>
+```
 
+試しに送信してみてどのような調子か確認  
+問題なければwheneverで定期送信されるように設定する  
+deliver_nowをつかうかも
 
 ## 参考サイト
 - [Action Mailer の基礎](https://railsguides.jp/action_mailer_basics.html)
