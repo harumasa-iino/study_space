@@ -57,6 +57,22 @@ end
 問題なければwheneverで定期送信されるように設定する  
 deliver_nowをつかうかも
 
+#### previewの設定
+mailerの作成時に生成されたpreviewを設定
+```
+# Preview all emails at http://localhost:3000/rails/mailers/article
+class ArticlePreview < ActionMailer::Preview
+  def send_mail
+    ArticleMailer.report_summary
+  end
+end
+```
+preview確認の為にURLにアクセスするもエラーが発生
+`http://localhost:3000/rails/mailers/article/send_mail`
+エラー原因を調査する
+
+
+
 ## 参考サイト
 - [Action Mailer の基礎](https://railsguides.jp/action_mailer_basics.html)
 - [参考サイト2](https://www.google.com/?hl=ja)
