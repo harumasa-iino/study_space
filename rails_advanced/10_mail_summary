@@ -1,0 +1,39 @@
+# トピック
+wheneverによる記事数一覧のメール送信
+
+## 目標
+wheneverで毎日am9:00に下記を管理者にメールで送信
+
+公開済の記事の総記事数
+・「公開済の記事数: 10件」とメールに集計内容を表示させてください。
+
+昨日公開された記事の件数とタイトル
+・「昨日公開された記事数: 5件」とメールに集計内容を表示させてください。
+・「タイトル: title_01」と各記事のタイトルをメールに表示させてください。
+・対象記事が0件の場合は「昨日公開された記事はありません」と表示してください。
+
+メールの件名には「公開済記事の集計結果」と設定してください。
+管理者のメールアドレスにはadmin@example.comを設定してください。
+usersテーブルにemailカラムは追加しなくて大丈夫です。
+メール本文のViewファイルはerbで作成してください。
+
+## 学習内容
+- cron
+- whenever
+- ActionMailer
+
+### 課題に対しての学習内容
+mailerを作成するために下記を実施
+```
+rails generate mailer Article 
+```
+```
+create  app/mailers/article_mailer.rb
+create  app/mailers/application_mailer.rb
+```
+
+
+## 参考サイト
+- [Action Mailer の基礎](https://railsguides.jp/action_mailer_basics.html)
+- [参考サイト2](https://www.google.com/?hl=ja)
+- [参考サイト3](https://www.google.com/?hl=ja)
