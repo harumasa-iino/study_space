@@ -71,7 +71,60 @@ preview確認の為にURLにアクセスするもエラーが発生
 `http://localhost:3000/rails/mailers/article/send_mail`
 エラー原因を調査する
 
+`ルーティングの問題: プレビューのルーティングが正しく設定されているかを確認してください。config/environments/development.rbファイルでconfig.action_mailer.preview_pathが正しく設定されている必要があります。`
+```
+config.action_mailer.smtp_settings = {
+  address:              'smtp.example.com',  # SMTPサーバーのアドレス
+  port:                 587,                 # SMTPサーバーのポート
+  domain:               'example.com',       # メールのドメイン
+  user_name:            'user@example.com',  # SMTPサーバーのユーザー名
+  password:             'password',          # SMTPサーバーのパスワード
+  authentication:       'plain',             # 認証の種類
+  enable_starttls_auto: true                 # TLSを自動で使用するかどうか
+}
 
+config.action_mailer.delivery_method = :smtp  # メールの配送方法
+config.action_mailer.perform_deliveries = true  # メール送信を実行するか
+config.action_mailer.raise_delivery_errors = true  # 送信エラー時に例外を発生させるか
+```
+syntax errorがあったので解消
+```
+# report_summary.text.erb
+
+公開済みの記事数: <%= @published_articles.count  %>件
+# .any?でコレクションが空でない場合に true を返す
+<% if @yesterday_published_articles.any?  %>
+# 課題の通り記事数カウントも追加
+昨日公開された記事数: <%= @yesterday_published_articles.count  %>件
+# .each do　にする
+  <% @yesterday_published_articles.each do |article|%>
+    タイトル:<%= article.title%>
+  <%end%>
+<%else%>
+昨日公開された記事はありません
+<%end%>
+
+# article_mailer.rb
+
+class ArticleMailer < ApplicationMailer
+  def report_summary
+    @published_articles = Article.where("state = ?", Article.states[:published])
+    @yesterday_published_articles = Article.where("DATE(published_at) = ? AND state = ?", Date.yesterday, Article.states[:published])
+# admin_emailの変数に設定してからtoに設定する
+    admin_email = 'admin@example.com'
+    mail(to: admin_email, subject: '公開済記事の集計結果')
+  end
+end
+```
+`http://localhost:3000/rails/mailers/article/report_summary`で意図した通りに表示されたことを確認
+
+#### test
+rubocop
+```
+@published_articles = Article.where("state = ?",  Article.states[:published])
+↓
+@published_articles = Article.where(state: Article.states[:published])
+``` 
 
 ## 参考サイト
 - [Action Mailer の基礎](https://railsguides.jp/action_mailer_basics.html)
