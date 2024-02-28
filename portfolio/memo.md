@@ -7,3 +7,8 @@ gemでbootstrapをbundle install したが、yarnがなくてnode.jsをインス
 # db作成
 モデルの前にdbを先に作成してしまった
 db構成の変更があり、先にどれだけちゃんと設計できているかが重要なのか実感した
+
+ハッシュからの取り出し方
+enumからのデータの取り出し
+resultの登録
+引当
