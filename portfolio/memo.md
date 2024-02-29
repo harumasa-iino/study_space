@@ -12,3 +12,6 @@ db構成の変更があり、先にどれだけちゃんと設計できている
 enumからのデータの取り出し
 resultの登録
 引当
+
+Categoryのnameを削除してpatternを追加
+一度PATTERNに変換する必要がないので、nameを消してpatterにする
