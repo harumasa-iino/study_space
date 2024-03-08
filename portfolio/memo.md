@@ -23,3 +23,5 @@ Categoryのnameを削除してpatternを追加
 
 composite_imageの保存がうまく言っていないよう。
 クラスの作成タイミングとか？
+
+ sporcketsを使ったほうがよい
