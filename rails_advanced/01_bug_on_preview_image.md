@@ -21,6 +21,8 @@ Nil location provided. Can't build URI.
   = image_tag medium.image_url(:lg)
 ```
 
+turboが動き出したことで修正が必要な箇所がでてきた
+
 ### やったこと
 空のstringクラスに画像ファイルがない（nil）を入れようとしていたためエラーが発生。nilの場合に空で保存するという事ができないらしい。  
   
