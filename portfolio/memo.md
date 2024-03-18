@@ -27,3 +27,4 @@ composite_imageの保存がうまく言っていないよう。
  sporcketsを使ったほうがよい
 
  user_idの書き換えをすると再訪時のセッションとの整合性が保てなくなって島貯め、user_idは肝であるcomposite_imageだけに使うようにした
+ CicleCIとAWS使ってデプロイする
