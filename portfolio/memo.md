@@ -56,3 +56,4 @@ apiでの認証を追加
 
 
 - ActiveRecordのscopeについて
+- rubyの基本コードをおさらいしておく
