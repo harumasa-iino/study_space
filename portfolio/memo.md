@@ -54,5 +54,6 @@ apiでの認証を追加
 ログイン機能がうまく実装できない、どうしてもnotrecordが返ってきてしまう
 
 
+
 - ActiveRecordのscopeについて
 - rubyの基本コードをおさらいしておく
