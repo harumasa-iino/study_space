@@ -14,3 +14,15 @@ def bubble_sort(arr)
   arr = [5, 3, 8, 4, 2]
   puts bubble_sort(arr)
 
+def reverse(arr)
+    reversed = []
+    n = arr.length
+    while n > 0
+      n -= 1
+      reversed << arr[n]
+    end
+    reversed
+end
+
+arr = [1,2,3,4,5]
+print reverse(arr)
