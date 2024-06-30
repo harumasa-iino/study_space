@@ -219,33 +219,6 @@ make down
 | make apply          | Terraform の内容を適用                                                  | docker-compose -f infra/docker-compose.yml run --rm terraform apply                        |
 | make destroy        | Terraform で構成されたリソースを削除                                    | docker-compose -f infra/docker-compose.yml run --rm terraform destroy                      |
 
-### リモートデバッグの方法
 
-リモートデバッグ を使用する際は以下の url を参考に設定してください<br>
-[Django のコンテナへリモートデバッグしよう！](https://qiita.com/shun198/items/9e4fcb4479385217c323)
-
-## トラブルシューティング
-
-### .env: no such file or directory
-
-.env ファイルがないので環境変数の一覧を参考に作成しましょう
-
-### docker daemon is not running
-
-Docker Desktop が起動できていないので起動させましょう
-
-### Ports are not available: address already in use
-
-別のコンテナもしくはローカル上ですでに使っているポートがある可能性があります
-<br>
-下記記事を参考にしてください
-<br>
-[コンテナ起動時に Ports are not available: address already in use が出た時の対処法について](https://qiita.com/shun198/items/ab6eca4bbe4d065abb8f)
-
-### Module not found
-
-make build
-
-を実行して Docker image を更新してください
 
 <p align="right">(<a href="#top">トップへ</a>)</p>
