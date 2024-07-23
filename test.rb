@@ -16,6 +16,6 @@ def root(num)
     return nil  
   end
 
-num = 14159265383832200000u08353
+num = 141592653838322000008353
 p root(num)
 
